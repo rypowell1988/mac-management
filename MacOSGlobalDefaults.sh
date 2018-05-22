@@ -2,7 +2,7 @@
 # macOS First Run Script to Configure Global Defaults
 #   Version: 1.0
 #   Author: Ryan Powell
-#   Reference: https://www.jamf.com/jamf-nation/discussions/22946
+#   Reference: https://github.com/rypowell1988/mac-management/blob/master/MacOSGlobalDefaults.sh
 
 
 # Set Time Zone
