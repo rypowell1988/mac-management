@@ -10,7 +10,7 @@
 #            Parameter 7 in the JSS to define a display name for the Screensaver path used in preferences
 
 # Test if we're connected to the network
-ping -c 3 -i 3 -o $4 > /dev/null
+ping -c 3 -i 3 -o "$4" > /dev/null
 if [[ $? > 0 ]]; then
    echo "Unable to contact the university network"
    exit 1
@@ -20,7 +20,7 @@ fi
 loggedInUser=$(stat -f%Su /dev/console)
 mntLocal="/tmp/scr"
 scrLocal="$6"
-scrNetwork="//$4/$5"
+scrNetwork="$5"
 macUUID=`ioreg -rd1 -c IOPlatformExpertDevice | grep -i "UUID" | cut -c27-62`
 
 echo "Current user: $loggedInUser"
