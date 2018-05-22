@@ -8,6 +8,8 @@
 #            Parameter 5 in the JSS to define the SMB path of images
 #            Parameter 6 in the JSS to define the local path to store screensaver images
 #            Parameter 7 in the JSS to define a display name for the Screensaver path used in preferences
+#            Parameter 8 in the JSS to define the username to connect to the SMB share with
+#            Parameter 9 in the JSS to define the password to connect tot he SMB share with
 
 # Check Parameters have been passed
 if [[ $4 == "" ]]; then
@@ -22,6 +24,12 @@ fi
 if [[ $7 == "" ]]; then
     exit 1
 fi
+if [[ $8 == "" ]]; then
+    exit 1
+fi
+if [[ $9 == "" ]]; then
+    exit 1
+fi
 
 
 # Test if we're connected to the network
@@ -34,8 +42,6 @@ fi
 # Some Variables
 loggedInUser=$(stat -f%Su /dev/console)
 mntLocal="/tmp/scr"
-scrLocal="$6"
-scrNetwork="$5"
 macUUID=`ioreg -rd1 -c IOPlatformExpertDevice | grep -i "UUID" | cut -c27-62`
 
 echo "Current user: $loggedInUser"
@@ -51,21 +57,21 @@ fi
 if [[ ! -d "$mntLocal" ]]; then
    mkdir -p "$mntLocal"
 fi
-mount_smbfs "$scrNetwork" "$mntLocal" > /dev/null
+mount_smbfs "//$4;$8:$9@$5" "$mntLocal" > /dev/null
 if [[ $? > 0 ]]; then
    echo "Unable to connect to the university DFS shares"
    exit 2
 fi
 
 # Check if the screensaver directory exists and create it if not
-if [[ ! -d "$scrLocal" ]]; then
-   sudo mkdir -p "$scrLocal"
+if [[ ! -d "$6" ]]; then
+   sudo mkdir -p "$6"
 fi
 
 # Copy images and remove the thumbs.db file
-sudo rm "$scrLocal"/*
-sudo cp "$mntLocal"/* "$scrLocal"
-sudo rm "$scrLocal/Thumbs.db"
+sudo rm "$6"/*
+sudo cp "$6"/* "$6"
+sudo rm "$6/Thumbs.db"
 
 # Remove the Mount
 umount "$mntLocal" -f
