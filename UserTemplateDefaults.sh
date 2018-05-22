@@ -5,6 +5,10 @@
 #   Reference: https://github.com/rypowell1988/mac-management/blob/master/UserTemplateConfig.sh
 #   Note: This script uses parameter 4 in the JSS to define the Safari Home Page
 
+# Check Parameter have been passed
+if [[ $4 == "" ]]; then
+    exit 1
+fi
 
 # Determine OS version
 os_vers=$(sw_vers -productVersion)
@@ -33,8 +37,8 @@ for USER_TEMPLATE in "/System/Library/User Template"/*
 		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.finder FXDefaultSearchScope -string "SCcf"
 		
 		# Avoid creating .DS_Store files on network or USB volumes
-    		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.desktopservices DSDontWriteNetworkStores -bool true
-    		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.desktopservices DSDontWriteUSBStores -bool true
+		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.desktopservices DSDontWriteNetworkStores -bool true
+		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.desktopservices DSDontWriteUSBStores -bool true
 		
 		# Minimise into Dock App Icon
 		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.dock minimize-to-application -bool true
