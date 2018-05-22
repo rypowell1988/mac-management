@@ -3,6 +3,7 @@
 #   Version: 1.0
 #   Author: Ryan Powell
 #   Reference: https://github.com/rypowell1988/mac-management/blob/master/UserTemplateConfig.sh
+#   Note: This script uses parameter 4 in the JSS to define the Safari Home Page
 
 
 # Determine OS version
@@ -13,7 +14,7 @@ os_build=$(sw_vers -buildVersion)
 # User template defaults
 for USER_TEMPLATE in "/System/Library/User Template"/*
 	do
-	  # Disable first login prompts for Siri, iCloud, Gestures and Diagnostics
+		# Disable first login prompts for Siri, iCloud, Gestures and Diagnostics
 		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.SetupAssistant DidSeeSiriSetup -bool TRUE
 		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.SetupAssistant DidSeeSyncSetup -bool TRUE
 		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.SetupAssistant DidSeeSyncSetup2 -bool TRUE
@@ -32,14 +33,14 @@ for USER_TEMPLATE in "/System/Library/User Template"/*
 		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.finder FXDefaultSearchScope -string "SCcf"
 		
 		# Avoid creating .DS_Store files on network or USB volumes
-    /usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.desktopservices DSDontWriteNetworkStores -bool true
-    /usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.desktopservices DSDontWriteUSBStores -bool true
+    		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.desktopservices DSDontWriteNetworkStores -bool true
+    		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.desktopservices DSDontWriteUSBStores -bool true
 		
 		# Minimise into Dock App Icon
 		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.dock minimize-to-application -bool true
 		
 		# default Safari homepage
-		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.Safari HomePage -string "https://www.derby.ac.uk"
+		/usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.Safari HomePage -string "$4"
 		
 	done
 	
