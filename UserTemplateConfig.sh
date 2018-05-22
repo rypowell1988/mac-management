@@ -2,7 +2,7 @@
 # Configures all default user templates to enable certain settings for newly created users
 #   Version: 1.0
 #   Author: Ryan Powell
-#   Reference: 
+#   Reference: https://github.com/rypowell1988/mac-management/blob/master/UserTemplateConfig.sh
 
 
 # Determine OS version
