@@ -8,12 +8,28 @@
 #            Parameter 5 in the JSS to define the network domain name
 #            Parameter 6 in the JSS to define the SMB path of images
 #            Parameter 7 in the JSS to define the local path to store screensaver images
-#            Parameter 8 in the JSS to define a display name for the Screensaver path used in preferences
-#            Parameter 9 in the JSS to define the username to connect to the SMB share with
-#            Parameter 10 in the JSS to define the password to connect tot he SMB share with
+#            Parameter 8 in the JSS to define the username to connect to the SMB share with
+#            Parameter 9 in the JSS to define the password to connect tot he SMB share with
 
 # Check Parameters have been passed
-
+if [[ $4 == "" ]]; then
+    exit 1
+fi
+if [[ $5 == "" ]]; then
+    exit 1
+fi
+if [[ $6 == "" ]]; then
+    exit 1
+fi
+if [[ $7 == "" ]]; then
+    exit 1
+fi
+if [[ $8 == "" ]]; then
+    exit 1
+fi
+if [[ $9 == "" ]]; then
+    exit 1
+fi
 
 
 # Test if we're connected to the network
@@ -34,14 +50,14 @@ echo "Current user: $loggedInUser"
 # Check we're not already mounted
 currentMount=`mount | grep "$mntLocal"`
 if [[ ! $currentMount == '' ]]; then
-   umount $mntLocal -f
+   sudo umount $mntLocal -f
 fi
 
 # Create Mount
 if [[ ! -d "$mntLocal" ]]; then
    mkdir -p "$mntLocal"
 fi
-mount_smbfs "//$4;$9:$10@$6" "$mntLocal" > /dev/null
+sudo mount_smbfs "//$4;$8:$9@$6" "$mntLocal" > /dev/null
 if [[ $? > 0 ]]; then
    echo "Unable to connect to the university DFS shares"
    exit 2
@@ -54,11 +70,11 @@ fi
 
 # Copy images and remove the thumbs.db file
 sudo rm "$7"/*
-sudo cp "$7"/* "$7"
+sudo cp "$mntLocal"/* "$7"
 sudo rm "$7/Thumbs.db"
 
 # Remove the Mount
-umount "$mntLocal" -f
+sudo umount "$mntLocal" -f
 sudo rmdir "$mntLocal"
 
 # Set the Screensaver for the current user
@@ -66,11 +82,11 @@ defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screen
 defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaver.$macUUID.plist" moduleDict -dict-add path /System/Library/Frameworks/ScreenSaver.framework/Resources/iLifeSlideshows.saver
 defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaver.$macUUID.plist" moduleDict -dict-add type 0
 defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaver.$macUUID.plist" idleTime -int 600
-defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaverphotochooser.$macUUID.plist" CustomFolderDict -dict-add identifier "$8"
+defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaverphotochooser.$macUUID.plist" CustomFolderDict -dict-add identifier "$7"
 defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaverphotochooser.$macUUID.plist" CustomFolderDict -dict-add name UoD
 defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaverphotochooser.$macUUID.plist" SelectedSource -int 4
 defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaverphotochooser.$macUUID.plist" ShufflesPhotos -int 1
-defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaverphotochooser.$macUUID.plist" SelectedFolderPath "$8"
+defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaverphotochooser.$macUUID.plist" SelectedFolderPath "$7"
 defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaverphotochooser.$macUUID.plist" LastViewedPhotoPath
 defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.ScreenSaver.iLifeSlideshows.$macUUID.plist" styleKey "Classic"
 chown $loggedInUser "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaver.$macUUID.plist"
