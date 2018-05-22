@@ -5,6 +5,10 @@
 #   Reference: https://github.com/rypowell1988/mac-management/blob/master/MacOSGlobalDefaults.sh
 #   Note: This script uses parameter 4 in the JSS to define the NTP Server
 
+# Check Parameters have been passed
+if [[ $4 == "" ]]; then
+    exit 1
+fi
 
 # Set Time Zone
 /usr/sbin/systemsetup -settimezone "Europe/London"
