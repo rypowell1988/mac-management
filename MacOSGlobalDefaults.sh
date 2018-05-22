@@ -3,6 +3,7 @@
 #   Version: 1.0
 #   Author: Ryan Powell
 #   Reference: https://github.com/rypowell1988/mac-management/blob/master/MacOSGlobalDefaults.sh
+#   Note: This script uses parameter 4 in the JSS to define the NTP Server
 
 
 # Set Time Zone
@@ -18,7 +19,7 @@
 /usr/sbin/systemsetup -setusingnetworktime on
 
 # Set Time Server
-/usr/bin/systemsetup -setnetworktimeserver "ntp1.derby.ac.uk"
+/usr/bin/systemsetup -setnetworktimeserver "$4"
 
 # Disable Time Machine's pop-up message whenever an external drive is plugged in
 /usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
