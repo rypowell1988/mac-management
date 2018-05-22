@@ -9,6 +9,21 @@
 #            Parameter 6 in the JSS to define the local path to store screensaver images
 #            Parameter 7 in the JSS to define a display name for the Screensaver path used in preferences
 
+# Check Parameters have been passed
+if [[ $4 == "" ]]; then
+    exit 1
+fi
+if [[ $5 == "" ]]; then
+    exit 1
+fi
+if [[ $6 == "" ]]; then
+    exit 1
+fi
+if [[ $7 == "" ]]; then
+    exit 1
+fi
+
+
 # Test if we're connected to the network
 ping -c 3 -i 3 -o "$4" > /dev/null
 if [[ $? > 0 ]]; then
