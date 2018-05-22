@@ -1,4 +1,4 @@
-# mac-management
+# macOS Management Repository
 Scripts used for managing or imaging macOS
 
 This repository contains Shell or Bash scripts used in my work developing the macOS Management project at my place of employment.
