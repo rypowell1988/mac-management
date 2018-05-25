@@ -3,7 +3,7 @@
 #   Version: 1.0
 #   Author: Ryan Powell
 #   Reference: https://github.com/rypowell1988/mac-management/blob/master/SetupDEPNotify.sh
-#   Note: This script uses parameter 4 in the JSS to define the NTP Server
+
 
 # SETUP SOME VARIABLES
     depnDir="/var/tmp/DEPNotify"
