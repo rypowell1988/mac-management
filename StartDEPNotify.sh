@@ -12,7 +12,7 @@
 
 
 # DOES DEP NOTIFY EXIST?
-if [[ ! -f "$depnDir/DEPNotify.app" ]]; then
+if [[ ! -d "$depnDir/DEPNotify.app" ]]; then
     exit 1
 fi
 
@@ -27,7 +27,7 @@ fi
 
 
 # SETUP DEPNOTIFY.
-    sudo "$depnDir/DEPNotify.app/Contents/MacOS/DEPNotify" -path $depnLog &
+    sudo "$depnDir/DEPNotify.app/Contents/MacOS/DEPNotify" -path $depnLog -fullScreen &
     echo "Command: Image: $depnDir/DEPNotifyLogo.png" >> $depnLog
     echo "Command: MainTitle: macOS Setup " >> $depnLog
     echo "Command: MainText: We're setting up your Mac.  This might take a while depending on your connection to the network and how much software or how many updates are required. " >> $depnLog
@@ -52,55 +52,55 @@ fi
 
 # CONFIGURE HOSTNAME VIA JAMF POLICY TRIGGER
     echo "Status: Setting Hostname..." >> $depnLog
-    #sudo /usr/local/jamf/bin/jamf policy -trigger script_sethostname
+    sudo /usr/local/jamf/bin/jamf policy -trigger script_sethostname
     sleep 1
 
 
 # CONFIGURE GLOBAL DEFAULTS VIA JAMF POLICY TRIGGER
     echo "Status: Configuring defaults settings..." >> $depnLog
-    #sudo /usr/local/jamf/bin/jamf policy -trigger script_globaldefaults
+    sudo /usr/local/jamf/bin/jamf policy -trigger script_globaldefaults
     sleep 1
 
 
 # CONFIGURE USER TEMPLATE DEFAULTS VIA JAMF POLICY TRIGGER
     echo "Status: Configuring user template default settings..." >> $depnLog
-    #sudo /usr/local/jamf/bin/jamf policy -trigger script_usertemplatedefaults
+    sudo /usr/local/jamf/bin/jamf policy -trigger script_usertemplatedefaults
     sleep 1
 
 
 # DEPLOYING TREND AV VIA JAMF POLICY TRIGGER
     echo "Status: Installing - Trend AntiVirus..." >> $depnLog
-    #sudo /usr/local/jamf/bin/jamf policy -trigger pkg_trendav
+    sudo /usr/local/jamf/bin/jamf policy -trigger pkg_trendav
     sleep 1
 
 
 # DEPLOYING AVECTO DEFENDPOINT VIA JAMF POLICY TRIGGER
     echo "Status: Installing - Avecto DefendPoint..." >> $depnLog
-    #sudo /usr/local/jamf/bin/jamf policy -trigger pkg_avecto
+    sudo /usr/local/jamf/bin/jamf policy -trigger pkg_avecto
     sleep 1
 
 
 # DEPLOYING NEXTHINK VIA JAMF POLICY TRIGGER
     echo "Status: Installing - Nexthink..." >> $depnLog
-    #sudo /usr/local/jamf/bin/jamf policy -trigger pkg_nexthink
+    sudo /usr/local/jamf/bin/jamf policy -trigger pkg_nexthink
     sleep 1
 
 
 # DEPLOYING MICROSOFT OFFICE VIA JAMF POLICY TRIGGER
     echo "Status: Installing - Microsoft Office..." >> $depnLog
-    #sudo /usr/local/jamf/bin/jamf policy -trigger pkg_msoffice
+    sudo /usr/local/jamf/bin/jamf policy -trigger pkg_msoffice
     sleep 1
 
 
 # DEPLOYING UOD SCREENSAVER Images VIA JAMF POLICY TRIGGER
     echo "Status: Installing - UoD Screensaver..." >> $depnLog
-    #sudo /usr/local/jamf/bin/jamf policy -trigger pkg_uodscreensaver
+    sudo /usr/local/jamf/bin/jamf policy -trigger pkg_uodscreensaver
     sleep 1
 
 
 # DEPLOYING SELF SERVICE VIA JAMF POLICY TRIGGER
     echo "Status: Installing - Self Service App..." >> $depnLog
-    #sudo /usr/local/jamf/bin/jamf policy -trigger pkg_selfservice
+    sudo /usr/local/jamf/bin/jamf policy -trigger pkg_selfservice
     sleep 1
 
 
@@ -115,7 +115,7 @@ fi
     sudo softwareupdate --schedule on
     kill "$caffeinate_pid"
     echo "Command: Quit" >> $depnLog
-    rm $depnLog
+    sudo rm -rf $depnDir
 
 
 exit 0
