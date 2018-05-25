@@ -92,7 +92,13 @@ fi
     sleep 1
 
 
-# DEPLOYING UOD SCREENSAVER Images VIA JAMF POLICY TRIGGER
+# DEPLOYING UOD WALLPAPER IMAGES VIA JAMF POLICY TRIGGER
+    echo "Status: Installing - UoD Wallpaper..." >> $depnLog
+    sudo /usr/local/jamf/bin/jamf policy -trigger pkg_uodwallpaper
+    sleep 1
+
+
+# DEPLOYING UOD SCREENSAVER IMAGES VIA JAMF POLICY TRIGGER
     echo "Status: Installing - UoD Screensaver..." >> $depnLog
     sudo /usr/local/jamf/bin/jamf policy -trigger pkg_uodscreensaver
     sleep 1
