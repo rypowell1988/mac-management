@@ -5,17 +5,17 @@
 #   Reference: https://github.com/rypowell1988/mac-management/StartDEPNotify.sh
 
 
-# DOES DEP NOTIFY EXIST?
-if [[ ! -f /Users/ryan/Desktop/DEPNotify/SetupDEPNotify.sh ]]; then
-    exit 1
-fi
-
-
 # SETUP SOME VARIABLES
     depnDir="/var/tmp/DEPNotify"
     depnLog="$depnDir/DEPNotify.log"
     current_user=`id -un`
-	
+
+
+# DOES DEP NOTIFY EXIST?
+if [[ ! -f "$depnDir/DEPNotify.app" ]]; then
+    exit 1
+fi
+
 
 # WAIT FOR THE DOCK PROCESS TO HAVE STARTED - INDICATING THE USER SESSION HAS FULLY STARTED
     dock_status=$(pgrep -x Dock)
