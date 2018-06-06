@@ -6,11 +6,16 @@
 
 
 # WAIT FOR THE DOCK PROCESS TO HAVE STARTED - INDICATING THE USER SESSION HAS FULLY STARTED
+    count=0
     dock_status=$(pgrep -x Dock)
+    echo "Waiting for Dock" >> $depnLog
     while [[ "$dock_status" == "" ]]; do
-        echo "Waiting for Dock" >> $depnLog
+        count=$((++count))
         sleep 5
         dock_status=$(pgrep -x Dock)
+        if [[ $count == 10 ]]; then
+          exit 2
+        fi
     done
 
 
@@ -23,4 +28,4 @@
 # CALL THE DEPNOTIFY POLICY FROM JAMF
     sudo /usr/local/jamf/bin/jamf policy -trigger policy_depnotify &
     
-Exit 0
+exit 0
