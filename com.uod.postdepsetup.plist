@@ -11,6 +11,7 @@
     <string>com.uod.postdepsetup</string>
     <key>ProgramArguments</key>
     <array>
+        <string>/bin/sh</string>
         <string>/private/var/tmp/postdepsetup.sh</string>
     </array>
     <key>Nice</key>
@@ -19,12 +20,11 @@
     <true/>
     <key>KeepAlive</key>
     <false/>
-    <key>LaunchOnlyOnce</key>        
+    <key>LaunchOnlyOnce</key>
     <false/>
     <key>StandardOutPath</key>
-    <string>/tmp/startup.stdout</string>
+    <string>/var/tmp/postdepsetup_stdout.txt</string>
     <key>StandardErrorPath</key>
-    <string>/tmp/startup.stderr</string>
-    <true/>
+    <string>/var/tmp/postdepsetup_stderr.txt</string>
   </dict>
 </plist>
