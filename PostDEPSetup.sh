@@ -1,4 +1,3 @@
-#!/bin/sh
 # macOS DEPNotify Configuration Script
 #   Version: 1.0
 #   Author: Ryan Powell
@@ -7,13 +6,15 @@
 
 # WAIT FOR THE DOCK PROCESS TO HAVE STARTED - INDICATING THE USER SESSION HAS FULLY STARTED
     count=0
-    dock_status=$(pgrep -x Dock)
+    dock_status=""
     echo "Waiting for Dock"
     while [[ "$dock_status" == "" ]]; do
         count=$((++count))
+        echo $count
         sleep 5
         dock_status=$(pgrep -x Dock)
         if [[ $count == 10 ]]; then
+          echo "Dock timeout reached"
           exit 2
         fi
     done
@@ -22,6 +23,7 @@
 # CHECK THE JAMF BINARY EXISTS
     echo "Checking Jamf Exists"
     if [[ ! -f /usr/local/jamf/bin/jamf ]]; then
+        echo "Jamf Binary not found"
         exit 1
     fi
 
@@ -29,5 +31,5 @@
 # CALL THE DEPNOTIFY POLICY FROM JAMF
     echo "Calling DEPNotify Policy"
     sudo /usr/local/jamf/bin/jamf policy -trigger policy_depnotify
-    
+
 exit 0
