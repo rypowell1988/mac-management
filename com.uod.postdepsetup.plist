@@ -9,8 +9,12 @@
     </dict>
     <key>Label</key>
     <string>com.uod.postdepsetup</string>
-    <key>Program</key>
-    <string>/private/var/tmp/postdepsetup.sh</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/private/var/tmp/postdepsetup.sh</string>
+    </array>
+    <key>Nice</key>
+    <integer>1</integer>
     <key>RunAtLoad</key>
     <true/>
     <key>KeepAlive</key>
@@ -21,11 +25,6 @@
     <string>/tmp/startup.stdout</string>
     <key>StandardErrorPath</key>
     <string>/tmp/startup.stderr</string>
-    <key>UserName</key>
-    <string>admin</string>
-    <key>GroupName</key>
-    <string>admin</string>
-    <key>InitGroups</key>
     <true/>
   </dict>
 </plist>
