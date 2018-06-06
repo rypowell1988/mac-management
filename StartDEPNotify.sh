@@ -11,10 +11,15 @@
     current_user=`id -un`
 
 
+# THIS SCRIPT IS ONLY SUPPORTED WHEN RUN AS THE DEPSETUPUSER
+    if [[ ! $current_user == "DEPSetupUser" ]]; then
+        exit 2
+    fi
+
 # DOES DEP NOTIFY EXIST?
-if [[ ! -d "$depnDir/DEPNotify.app" ]]; then
-    exit 1
-fi
+    if [[ ! -d "$depnDir/DEPNotify.app" ]]; then
+        exit 1
+    fi
 
 
 # WAIT FOR THE DOCK PROCESS TO HAVE STARTED - INDICATING THE USER SESSION HAS FULLY STARTED
@@ -39,7 +44,7 @@ fi
         echo "Command: Alert: Setup cannot continue because this Mac doesn't appear to be enrolled" >> $depnLog
         echo "Command: Quit" >> $depnLog
         rm $depnLog
-        exit 1
+        exit 3
     fi
 
 
@@ -120,8 +125,13 @@ fi
     echo "Status: Finishing Up..." >> $depnLog
     sudo softwareupdate --schedule on
     kill "$caffeinate_pid"
-    echo "Command: Quit" >> $depnLog
     sudo rm -rf $depnDir
 
 
+# DELETE THE POSTDEPSETUP USER AND REMOVE THE LAUNCHDAEMON
+    sudo dscl . delete /Users/DEPSetupUser
+    sudo rm /Library/LaunchDaemons/com.uod.postdepsetup.plist
+    sudo rm /var/tmp/postdepsetup_stdout.txt
+    sudo rm /var/tmp/postdepsetup_stderr.txt
+    
 exit 0
