@@ -9,6 +9,12 @@
     depEnabled=`profiles status -type enrollment | grep 'Enrolled via DEP:' | awk '{print $4}'`
 
     if [[ $depEnabled == 'Yes' ]]; then
+        sudo /usr/local/jamf/bin/jamf policy -trigger pkg_uodjamfhelperbranding
+        
+        # EXECUTE JAMF HELPER TO BLOCK THE LOGIN UI BEFORE IT'S READY FOR USE
+        /Library/Application\ Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper -windowType fs  -icon /private/var/tmp/CasperImaging.png -description "This Mac will restart shortly" -heading "Preparing first run script..." -fullScreenLogo &
+    
+        # DEPLOY THE TEMP SETUP USER
         sudo /usr/local/jamf/bin/jamf policy -trigger pkg_adddepsetupaccount
     
         # SCHEDULE A REBOOT IN ONE MINUTE
