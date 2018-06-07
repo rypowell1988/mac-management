@@ -131,7 +131,8 @@
 # DELETE THE POSTDEPSETUP USER AND REMOVE THE LAUNCHDAEMON
     sudo dscl . delete /Users/DEPSetupUser
     sudo rm /Library/LaunchDaemons/com.uod.postdepsetup.plist
-    sudo rm /var/tmp/postdepsetup_stdout.txt
-    sudo rm /var/tmp/postdepsetup_stderr.txt
+    sudo rm /private/var/tmp/casperImaging.png
+    sudo rm /private/var/tmp/postdepsetup_stdout.txt
+    sudo rm /private/var/tmp/postdepsetup_stderr.txt
     
 exit 0
