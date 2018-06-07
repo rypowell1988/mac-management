@@ -2,7 +2,7 @@
 # macOS DEPNotify Configuration Script
 #   Version: 1.0
 #   Author: Ryan Powell
-#   Reference: https://github.com/rypowell1988/mac-management/StartDEPNotify.sh
+#   Reference: https://github.com/rypowell1988/mac-management/InstallAndStartDEPNotify.sh
 
 
 # SETUP SOME VARIABLES
