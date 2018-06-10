@@ -14,26 +14,27 @@ commandParams="--agreetolicense"
 
 
 # CHECK IF ERASING THE FS
-if [[ $4 == "yes" ]]; then
-    commandParams="$commandParams --eraseinstall"
-fi
+   if [[ $4 == "yes" ]]; then
+       commandParams="$commandParams --eraseinstall"
+   fi
 
 
 # CHECK IF CONVERTING THE FS
-if [[ $5 == "yes" ]]; then
-    commandParams="$commandParams --converttoapfs YES"
-else
-    commandParams="$commandParams --converttoapfs NO"
-fi
+   if [[ $5 == "yes" ]]; then
+      commandParams="$commandParams --converttoapfs YES"
+   else
+      commandParams="$commandParams --converttoapfs NO"
+   fi
 
 
 # CHECK AN INTEGER REBOOT DELAY IS SUPPLIED
-if [[ $6 =~ ^[0-9]+$ ]]; then
-    commandParams="$commandParams --rebootdelay $6"
-fi;
+   if [[ $6 =~ ^[0-9]+$ ]]; then
+      commandParams="$commandParams --rebootdelay $6"
+   fi;
 
 
 # EXECUTE THE COMMAND
-sudo "/Applications/Install macOS High Sierra.app/Contents/Resources/startosinstall" "commandParams" &
+   sudo "/Applications/Install macOS High Sierra.app/Contents/Resources/startosinstall" "commandParams" &
+
 
 exit 0
