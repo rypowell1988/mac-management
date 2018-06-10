@@ -5,30 +5,37 @@
 #   Reference: https://github.com/rypowell1988/mac-management/blob/master/MacOSGlobalDefaults.sh
 #   Note: This script uses parameter 4 in the JSS to define the NTP Server
 
-# Check Parameters have been passed
-if [[ $4 == "" ]]; then
-    exit 1
-fi
 
-# Set Time Zone
-/usr/sbin/systemsetup -settimezone "Europe/London"
+# CHECK PARAMETERS HAVE BEEN PASSED
+   if [[ $4 == "" ]]; then
+       exit 1
+   fi
 
-# Set Region and Locale
-/usr/bin/defaults write /Library/Preferences/.GlobalPreferences AppleLocale en_GB
-/usr/bin/defaults write /Library/Preferences/.GlobalPreferences Country GB
-/usr/bin/defaults write /Library/Preferences/.GlobalPreferences AppleMeasurementUnits -string "Centimeters"
-/usr/bin/defaults write /Library/Preferences/.GlobalPreferences AppleMetricUnits -bool true
+# SET CURRENT TIMEZONE
+   /usr/sbin/systemsetup -settimezone "Europe/London"
 
-# Set Network Time
-/usr/sbin/systemsetup -setusingnetworktime on
 
-# Set Time Server
-/usr/bin/systemsetup -setnetworktimeserver "$4"
+# SET REGION AND LOCALE
+   /usr/bin/defaults write /Library/Preferences/.GlobalPreferences AppleLocale en_GB
+   /usr/bin/defaults write /Library/Preferences/.GlobalPreferences Country GB
+   /usr/bin/defaults write /Library/Preferences/.GlobalPreferences AppleMeasurementUnits -string "Centimeters"
+   /usr/bin/defaults write /Library/Preferences/.GlobalPreferences AppleMetricUnits -bool true
 
-# Disable Time Machine's pop-up message whenever an external drive is plugged in
-/usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
-# Hide management accounts from the login screen
-/usr/bin/defaults write /Library/Preferences/com.apple.loginwindow Hide500Users -bool true
+# ENABLE NETWORK TIME SERVER
+   /usr/sbin/systemsetup -setusingnetworktime on
+
+
+# SET NETWORK TIME SERVER
+   /usr/bin/systemsetup -setnetworktimeserver "$4"
+
+
+# DISABLE TIME MACHINE POPUP FOR EXTERNAL DRIVES
+   /usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
+
+
+# HIDE MANAGEMENT ACCOUNTS FROM THE LOGIN WINDOW
+   /usr/bin/defaults write /Library/Preferences/com.apple.loginwindow Hide500Users -bool true
+
 
 exit 0
