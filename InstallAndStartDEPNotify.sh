@@ -16,6 +16,7 @@
         exit 2
     fi
 
+
 # DOES DEP NOTIFY EXIST?
     if [[ ! -d "$depnDir/DEPNotify.app" ]]; then
         exit 1
@@ -134,5 +135,6 @@
     sudo rm /private/var/tmp/casperImaging.png
     sudo rm /private/var/tmp/postdepsetup_stdout.txt
     sudo rm /private/var/tmp/postdepsetup_stderr.txt
+    
     
 exit 0
