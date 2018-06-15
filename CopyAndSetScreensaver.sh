@@ -14,26 +14,26 @@
 
 # CHECK PARAMETERS HAVE BEEN PASSED
    if [[ $4 == "" ]]; then
-       exit 1
+      exit 1
    fi
    if [[ $5 == "" ]]; then
-       exit 1
+      exit 1
    fi
    if [[ $6 == "" ]]; then
-       exit 1
+      exit 1
    fi
    if [[ $7 == "" ]]; then
-       exit 1
+      exit 1
    fi
    if [[ $8 == "" ]]; then
-       exit 1
+      exit 1
    fi
    if [[ $9 == "" ]]; then
-       exit 1
+      exit 1
    fi
 
 
-# CHECK WE'RE CONNECTED TO THE NETWORK
+# Test if we're connected to the network
    ping -c 3 -i 3 -o "$5" > /dev/null
    if [[ $? > 0 ]]; then
       echo "Unable to contact the university network"
@@ -47,16 +47,16 @@
    macUUID=`ioreg -rd1 -c IOPlatformExpertDevice | grep -i "UUID" | cut -c27-62`
 
 
-# CHECK THE SCREENSAVER SHARE ISN'T ALREADY MOUNTED
+# CHECK THE IMAGE SHARE ISN'T ALREADY MOUNTED
    currentMount=`mount | grep "$mntLocal"`
    if [[ ! $currentMount == '' ]]; then
-       echo "Unmounting previous mount point"
-       sudo diskutil unmount force $mntLocal
-       sleep 2
+      echo "Unmounting previous mount point"
+      sudo diskutil unmount force $mntLocal
+      sleep 2
    fi
 
 
-# CREATE THE MOUNT TO THE WALLPAPER SHARE
+# MOUNT THE IMAGE SHARE
    if [[ ! -d "$mntLocal" ]]; then
       mkdir -p "$mntLocal"
    fi
@@ -68,26 +68,26 @@
    sleep 1
 
 
-# CREATE THE LOCAL SCREENSAVER DIRECTORY IF IT DOESN'T ALREADY EXIST
+# CREATE THE LOCAL SCREENSAVER DIRECTORY IF IT DOESN'T EXIST
    if [[ ! -d "$7" ]]; then
       sudo mkdir -p "$7"
    fi
 
 
-# COPY THE SCREENSAVER IMAGES AND REMOVE THUMBS.DB
+# COPY THE IMAGES OVER AND DELETE THUMBS.DB
    sudo rm -f "$7"/*
    sudo cp "$mntLocal"/* "$7"
    sudo rm -f "$7/Thumbs.db"
    sleep 1
 
 
-# UNMOUNT THE SHARE
+# REMOVE THE MOUNT
    sudo diskutil unmount force $mntLocal
    sleep 1
    sudo rm -d -f "$mntLocal"
 
 
-# SET THE SCREENSAVER FOR THE CURRENT USER
+# SET THE SCREENSAVER
    defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaver.$macUUID.plist" moduleDict -dict-add moduleName iLifeSlideshows
    defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaver.$macUUID.plist" moduleDict -dict-add path /System/Library/Frameworks/ScreenSaver.framework/Resources/iLifeSlideshows.saver
    defaults write "/Users/$loggedInUser/Library/Preferences/ByHost/com.apple.screensaver.$macUUID.plist" moduleDict -dict-add type 0
