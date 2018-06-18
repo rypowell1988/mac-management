@@ -11,35 +11,21 @@
     current_user=`id -un`
 
 
-# THIS SCRIPT IS ONLY SUPPORTED WHEN RUN AS THE DEPSETUPUSER
-    if [[ ! $current_user == "DEPSetupUser" ]]; then
-        exit 2
-    fi
-
-
 # DOES DEP NOTIFY EXIST?
     if [[ ! -d "$depnDir/DEPNotify.app" ]]; then
         exit 1
     fi
 
 
-# WAIT FOR THE DOCK PROCESS TO HAVE STARTED - INDICATING THE USER SESSION HAS FULLY STARTED
-    dock_status=$(pgrep -x Dock)
-    while [[ "$dock_status" == "" ]]; do
-        echo "Waiting for Dock" >> $depnLog
-        sleep 5
-        dock_status=$(pgrep -x Dock)
-    done
-
-
-# SETUP DEPNOTIFY.
+# SETUP DEPNOTIFY
+    sudo killall jamfHelper System\ Events
     sudo "$depnDir/DEPNotify.app/Contents/MacOS/DEPNotify" -path $depnLog -fullScreen &
     echo "Command: Image: $depnDir/DEPNotifyLogo.png" >> $depnLog
     echo "Command: MainTitle: macOS Setup " >> $depnLog
     echo "Command: MainText: We're setting up your Mac.  This might take a while depending on your connection to the network and how much software or how many updates are required. " >> $depnLog
 
 
-# LOOK FOR THE JAMF BINARY.
+# LOOK FOR THE JAMF BINARY
     echo "Status: Looking for Jamf..." >> $depnLog
     if [[ ! -f /usr/local/jamf/bin/jamf ]]; then
         echo "Command: Alert: Setup cannot continue because this Mac doesn't appear to be enrolled" >> $depnLog
@@ -100,13 +86,13 @@
 
 # DEPLOYING UOD WALLPAPER IMAGES VIA JAMF POLICY TRIGGER
     echo "Status: Installing - UoD Wallpaper..." >> $depnLog
-    sudo /usr/local/jamf/bin/jamf policy -trigger pkg_uodwallpaper
+    sudo /usr/local/jamf/bin/jamf policy -trigger policy_defaultwallpaper
     sleep 1
 
 
 # DEPLOYING UOD SCREENSAVER IMAGES VIA JAMF POLICY TRIGGER
     echo "Status: Installing - UoD Screensaver..." >> $depnLog
-    sudo /usr/local/jamf/bin/jamf policy -trigger pkg_uodscreensaver
+    sudo /usr/local/jamf/bin/jamf policy -trigger script_uodscreensaver
     sleep 1
 
 
@@ -124,9 +110,12 @@
 
 # FINISHING UP - RE-ENABLING SCHEDULED UPDATE CHECKS, KILL CAFFEINATE AND CLEAR THE DEPNOTIFY LOG
     echo "Status: Finishing Up..." >> $depnLog
+    # SCHEDULE A REBOOT
+    sudo shutdown -r +1 &
     sudo softwareupdate --schedule on
     kill "$caffeinate_pid"
     sudo rm -rf $depnDir
+    sleep 40  
 
 
 # DELETE THE POSTDEPSETUP USER AND REMOVE THE LAUNCHDAEMON
@@ -137,4 +126,5 @@
     sudo rm /private/var/tmp/postdepsetup_stderr.txt
     
     
+#EXIT SUCCESSFUL
 exit 0
