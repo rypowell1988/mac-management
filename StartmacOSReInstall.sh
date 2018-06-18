@@ -35,7 +35,7 @@
 
 # EXECUTE THE COMMAND
    sudo /usr/local/jamf/bin/jamf policy -trigger pkg_uodjamfhelperbranding
-   /Library/Application\ Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper -windowType fs  -icon /CasperImaging.png -description "Setup will begin shortly" -heading "Preparing macOS Installer..." -fullScreenLogo -launchd &
+   /Library/Application\ Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper -windowType fs  -icon /Private/Var/tmp/CasperImaging.png -description "Setup will begin shortly" -heading "Preparing macOS Installer..." -fullScreenLogo -launchd &
    echo "Executing command: /Applications/Install macOS High Sierra.app/Contents/Resources/startosinstall $commandParams"
    sudo "/Applications/Install macOS High Sierra.app/Contents/Resources/startosinstall" $commandParams
    echo "Response code: $?"
@@ -45,4 +45,5 @@
    sudo shutdown -r +15 &
 
 
-exit 0
+# Exit Successful
+   exit 0
