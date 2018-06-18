@@ -8,10 +8,11 @@
 
 # CHECK PARAMETERS HAVE BEEN PASSED
    if [[ $4 == "" ]]; then
-       exit 1
+      exit 1
    fi
 
-# SET CURRENT TIMEZONE
+
+# SET TIME ZONE
    /usr/sbin/systemsetup -settimezone "Europe/London"
 
 
@@ -22,20 +23,21 @@
    /usr/bin/defaults write /Library/Preferences/.GlobalPreferences AppleMetricUnits -bool true
 
 
-# ENABLE NETWORK TIME SERVER
+# ENABLE NETWORK TIME SET
    /usr/sbin/systemsetup -setusingnetworktime on
 
 
-# SET NETWORK TIME SERVER
+# SET THE TIME SERVER
    /usr/bin/systemsetup -setnetworktimeserver "$4"
 
 
-# DISABLE TIME MACHINE POPUP FOR EXTERNAL DRIVES
+# DISABLE TIME MACHINE POP FOR NEW DISKS
    /usr/bin/defaults write /Library/Preferences/com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
 
-# HIDE MANAGEMENT ACCOUNTS FROM THE LOGIN WINDOW
+# HIDE MANAGEMENT ACCOUNTS FROM THE LOGIN SCREEN
    /usr/bin/defaults write /Library/Preferences/com.apple.loginwindow Hide500Users -bool true
 
 
-exit 0
+# EXIT SUCCESSFUL
+   exit 0
