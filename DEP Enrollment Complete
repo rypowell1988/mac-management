@@ -2,7 +2,7 @@
 # If the Mac is enrolled via DEP then the DEPSetupUser is added (Via Jamf Policy), Auto Login enabled and reboot scheduled
 #   Version: 1.0
 #   Author: Ryan Powell
-#   Reference: https://github.com/rypowell1988/mac-management/blob/master/AddDEPSetupUser.sh
+#   Reference: https://github.com/rypowell1988/mac-management/blob/master/DEP%20Enrollment%20Complete
 
 
 # GET ENROLLMENT METHOD
