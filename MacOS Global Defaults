@@ -2,7 +2,7 @@
 # macOS First Run Script to Configure Global Defaults
 #   Version: 1.0
 #   Author: Ryan Powell
-#   Reference: https://github.com/rypowell1988/mac-management/blob/master/MacOSGlobalDefaults.sh
+#   Reference: https://github.com/rypowell1988/mac-management/blob/master/MacOS%20Global%20Defaults
 #   Note: This script uses parameter 4 in the JSS to define the NTP Server
 
 
