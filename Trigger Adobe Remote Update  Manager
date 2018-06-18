@@ -2,7 +2,7 @@
 # Executes Adobe Remote Update Manager to patch all installed Adobe CC Apps
 #   Version: 1.0
 #   Author: Ryan Powell
-#   Reference: https://github.com/rypowell1988/mac-management/blob/master/ExecuteAdobeUpdateManager.sh
+#   Reference: https://github.com/rypowell1988/mac-management/blob/master/Trigger%20Adobe%20Remote%20Update%20Manager
 
 
 # CHECK RUM EXISTS
@@ -16,4 +16,5 @@
    sudo /usr/local/bin/RemoteUpdateManager --action=install
 
 
+# EXIT SUCCESSFUL
 exit 0
