@@ -2,7 +2,7 @@
 # Configures all default user templates to enable certain settings for newly created users
 #   Version: 1.0
 #   Author: Ryan Powell
-#   Reference: https://github.com/rypowell1988/mac-management/blob/master/UserTemplateConfig.sh
+#   Reference: https://github.com/rypowell1988/mac-management/blob/master/macOS%20User%20Template%20Defaults
 #   Note: This script uses parameter 4 in the JSS to define the Safari Home Page
 
 
