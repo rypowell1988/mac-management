@@ -105,4 +105,5 @@
    killall cfprefsd
 
 
-exit 0
+# EXIT SUCCESSFUL
+   exit 0
