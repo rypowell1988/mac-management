@@ -2,7 +2,7 @@
 # Copies a directory of screensaver images from an SMB directory locally and sets this as the path for screensaver images
 #   Version: 1.0
 #   Author: Ryan Powell
-#   Reference: https://github.com/rypowell1988/mac-management/blob/master/CopyAndSetScreensaver.sh
+#   Reference: https://github.com/rypowell1988/mac-management/blob/master/Copy%20Network%20Screensaver%20Images%20to%20Local
 #   Note: This script uses:
 #            Parameter 4 in the JSS to define the network domain netbios name         
 #            Parameter 5 in the JSS to define the network domain name
