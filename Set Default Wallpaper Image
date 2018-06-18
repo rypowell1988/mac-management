@@ -2,7 +2,7 @@
 # Takes a template image and sets this as the default login wallpaper and default user wallpaper
 #   Version: 1.0
 #   Author: Ryan Powell
-#   Reference: https://github.com/rypowell1988/mac-management/blob/master/SetDefaultWallpaper.sh
+#   Reference: https://github.com/rypowell1988/mac-management/blob/master/Set%20Default%20Wallpaper%20Image
 
 
 # VARIABLES TO PATHS TO CERTAIN IMAGES
@@ -40,4 +40,5 @@
    sudo chmod 755 "$templateImg"
 
 
-exit 0
+# EXIT SUCCESSFUL
+   exit 0
