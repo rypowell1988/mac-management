@@ -25,6 +25,8 @@
    if [[ $respCode > 0 ]]; then
       # Non 0 exit code received so exit
       echo "Error code $respCode received from installer"
+      echo "Removing Cached Installer"
+      rm -R $cachedInstaller
       exit $respCode
    fi
 
