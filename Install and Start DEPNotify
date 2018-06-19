@@ -6,20 +6,55 @@
 
 
 # SETUP SOME VARIABLES
-    depnDir="/var/tmp/DEPNotify"
-    depnLog="$depnDir/DEPNotify.log"
-    current_user=`id -un`
+   depnDir="/var/tmp/DEPNotify"
+   depnLog="$depnDir/DEPNotify.log"
+   current_user=`id -un`
+   logDir="/Library/University of Derby/Logs"
+   logFile="$logDir/DEPNotify.txt"
+
+
+# CREATE LOG FILE
+   if [[ ! -d "$logDir" ]]; then 
+      sudo mkdir -p "$logDir"
+   fi
+   if [[ -f "$logFile" ]]; then
+      rm "$logFile"
+   fi
+   sudo chmod -R 777 "$logDir"
+   sudo echo "Log Started" >> $logFile
+   sudo chown root:wheel "$logFile"
+   sudo chmod 777 "$logFile"
+
+
+# WAIT FOR THE DOCK PROCESS TO HAVE STARTED - INDICATING THE USER SESSION HAS FULLY STARTED
+   count=0
+   dock_status=""
+   echo "Waiting for Dock" >> $logFile
+   while [[ "$dock_status" == "" ]]; do
+      count=$((++count))
+      echo "Try $count of a max of 10" >> $logFile
+      sleep 5
+      dock_status=$(pgrep -x Dock)
+      if [[ $count == 10 ]]; then
+         echo "Dock timeout reached" >> $logFile
+         exit 2
+      fi
+   done
+   echo "Dock process is now running" >> $logFile
 
 
 # DOES DEP NOTIFY EXIST?
    if [[ ! -d "$depnDir/DEPNotify.app" ]]; then
+      echo "DEPNotify not found" >> $logFile
       exit 1
    fi
 
 
 # SETUP DEPNOTIFY
+   echo "Killing Jamf Helper" >> $logFile
    sudo killall jamfHelper System\ Events
-   sudo "$depnDir/DEPNotify.app/Contents/MacOS/DEPNotify" -path $depnLog -fullScreen &
+   echo "Start DEPNotify" >> $logFile
+   "$depnDir/DEPNotify.app/Contents/MacOS/DEPNotify" -path $depnLog -fullScreen &
    echo "Command: Image: $depnDir/DEPNotifyLogo.png" >> $depnLog
    echo "Command: MainTitle: macOS Setup " >> $depnLog
    echo "Command: MainText: We're setting up your Mac.  This might take a while depending on your connection to the network and how much software or how many updates are required. " >> $depnLog
@@ -105,7 +140,13 @@
 # CHECKING IN WITH JAMF
    echo "Status: Checking in with Jamf..." >> $depnLog
    sudo /usr/local/jamf/bin/jamf recon
-   sleep 1
+   sleep 30
+
+
+# BINDING TO AD VIA JAMF POLICY TRIGGER
+   echo "Status: Binding to Active Directory..." >> $depnLog
+   sudo /usr/local/jamf/bin/jamf policy -trigger bindad
+   sleep 10
 
 
 # FINISHING UP - RE-ENABLING SCHEDULED UPDATE CHECKS, KILL CAFFEINATE AND CLEAR THE DEPNOTIFY LOG
@@ -113,6 +154,7 @@
 
 
 # SCHEDULE A REBOOT
+   echo "DEPNotify complete, scheduling reboot" >> $logFile
    sudo shutdown -r +1 &
    sudo softwareupdate --schedule on
    kill "$caffeinate_pid"
@@ -121,6 +163,7 @@
 
 
 # DELETE THE POSTDEPSETUP USER AND REMOVE THE LAUNCHDAEMON
+   echo "Clearing AutoLogin User and LaunchDaemon" >> $logFile
    sudo dscl . delete /Users/DEPSetupUser
    sudo rm /Library/LaunchDaemons/com.uod.postdepsetup.plist
    sudo rm /private/var/tmp/casperImaging.png
