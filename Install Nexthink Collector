@@ -32,6 +32,12 @@
    echo "Executing cached installer"
    cd "$cachedInstaller/csi.app/Contents/MacOS"
    sudo ./csi -address "$4" -port "$5"
+   # Did the install work?
+   respCode=$?
+   if [[ $respCode > 0 ]]; then
+      # Non 0 exit code received so exit
+      exit $respCode
+   fi
 
 
 # REMOVING CACHED INSTALLER
