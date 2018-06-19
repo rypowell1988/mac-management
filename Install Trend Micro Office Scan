@@ -1,0 +1,38 @@
+#!/bin/sh
+# Installs Trend Micro Office Scan from previously cached installation files
+#   Version: 1.0
+#   Author: Ryan Powell
+#   Reference: https://github.com/rypowell1988/mac-management/blob/master/Install%20Trend%20Micro%20Office%20Scan
+
+
+#  SOME VARIABLES
+   cachedInstaller=/private/var/tmp/tmsminstall
+
+
+# CHECK IF THE INSTALLER HAS BEEN CACHED
+   if [[ ! -d $cachedInstaller ]]; then
+      echo "Trend installer not found at $cachedInstaller"
+      exit 1
+   fi
+
+
+# EXECUTE THE INSTALLER
+   echo "Executing cached installer"
+   cd "$cachedInstaller"
+   sudo installer -pkg "tmsminstall.pkg" -target /
+   # Did the install work?
+   respCode=$?
+   if [[ $respCode > 0 ]]; then
+      # Non 0 exit code received so exit
+      echo "Error code $respCode received from installer"
+      exit $respCode
+   fi
+
+
+# REMOVING CACHED INSTALLER
+   echo "Removing Cached Installer"
+   rm -R $cachedInstaller
+
+
+# EXIT SUCCESS
+   exit 0
