@@ -8,7 +8,7 @@
 # SETUP SOME VARIABLES
    depnDir="/var/tmp/DEPNotify"
    depnLog="$depnDir/DEPNotify.log"
-   current_user=`id -un`
+   current_user=$(/usr/bin/python -c 'from SystemConfiguration import SCDynamicStoreCopyConsoleUser; import sys; username = (SCDynamicStoreCopyConsoleUser(None, None, None) or [None])[0]; username = [username,""][username in [u"loginwindow", None, u""]]; sys.stdout.write(username + "\n");')
    logDir="/Library/University of Derby/Logs"
    logFile="$logDir/DEPNotify.txt"
 
@@ -41,7 +41,7 @@
       fi
    done
    echo "Dock process is now running" >> $logFile
-
+   sleep 10
 
 # DOES DEP NOTIFY EXIST?
    if [[ ! -d "$depnDir/DEPNotify.app" ]]; then
@@ -51,13 +51,16 @@
 
 
 # SETUP DEPNOTIFY
+   sleep 10
+   echo "Current User = $current_user" >> $logFile
    echo "Killing Jamf Helper" >> $logFile
-   sudo killall jamfHelper System\ Events
+   sudo -u $current_user killall jamfHelper System\ Events
    echo "Start DEPNotify" >> $logFile
-   "$depnDir/DEPNotify.app/Contents/MacOS/DEPNotify" -path $depnLog -fullScreen &
+   sudo -u $current_user "$depnDir/DEPNotify.app/Contents/MacOS/DEPNotify" -path "$depnLog" -fullScreen &
    echo "Command: Image: $depnDir/DEPNotifyLogo.png" >> $depnLog
    echo "Command: MainTitle: macOS Setup " >> $depnLog
    echo "Command: MainText: We're setting up your Mac.  This might take a while depending on your connection to the network and how much software or how many updates are required. " >> $depnLog
+   sleep 5
 
 
 # LOOK FOR THE JAMF BINARY
