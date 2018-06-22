@@ -1,0 +1,48 @@
+#!/bin/sh
+# Configures the Dock for Student profiles
+#   Version: 1.0
+#   Author: Ryan Powell
+#   Reference: https://github.com/rypowell1988/mac-management/blob/master/Default%20Dock%20Layout%20-%20Student
+
+
+# SOME VARIABLES
+   me=`whoami`
+   dockutil="/Library/University of Derby/Dockutil/dockutil"
+   completionflagdir="/Users/$me/Library/Application Support/University of Derby"
+   completionflagfile="$completionflagdir/dockutil_completed.txt"
+   errorlogfile="$completionflagdir/dockutil_errors.txt"
+
+
+# HAVE WE ALREADY RUN?
+   if [[ ! -d "$completionflagdir" ]]; then
+      sudo -u $me mkdir -p "$completionflagdir"
+   fi
+   
+   if [[ -f "$completionflagfile" ]]; then
+	   exit 0
+   fi 
+
+   
+# IS DOCKUTIL DEPLOYED?
+   if [[ ! -f "$dockutil" ]]; then
+      echo "$me | Dockutil not found at: $dockutil" > $errorlogfile
+      exit 1
+   fi
+   
+   
+# CONFIGURE THE DOCK
+   "$dockutil" --remove all --no-restart
+   "$dockutil" --add /Applications --no-restart
+   "$dockutil" --add "/Applications/Safari.app" --label "Safari" --no-restart
+   "$dockutil" --add "/Applications/Microsoft Word.app" --label "Microsoft Word" --no-restart
+   "$dockutil" --add "/Applications/Microsoft Excel.app" --label "Microsoft Excel" --no-restart
+   "$dockutil" --add "/Applications/Microsoft PowerPoint.app" --label "Microsoft PowerPoint" --no-restart
+   "$dockutil" --add ~/Downloads
+   
+   
+# SET COMPLETION FLAG FILE
+   echo "Done" > $completionflagfile
+    
+   
+# EXIT SUCCESSFUL
+   exit 0
