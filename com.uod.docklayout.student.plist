@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>EnvironmentVariables</key>
+    <dict>
+      <key>PATH</key>
+      <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:</string>
+    </dict>
+    <key>Label</key>
+    <string>com.uod.docklayout.student</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/sh</string>
+        <string>/Library/University of Derby/Dockutil/Student.sh</string>
+    </array>
+    <key>Nice</key>
+    <integer>1</integer>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <false/>
+    <key>LaunchOnlyOnce</key>
+    <false/>
+    <key>StandardOutPath</key>
+    <string>/var/tmp/uoddock_stdout.txt</string>
+    <key>StandardErrorPath</key>
+    <string>/var/tmp/uoddock_stderr.txt</string>
+  </dict>
+</plist>
