@@ -132,6 +132,12 @@
    echo "Status: Installing - UoD Screensaver..." >> $depnLog
    sudo /usr/local/jamf/bin/jamf policy -trigger script_uodscreensaver
    sleep 1
+   
+   
+# DEPLOYING DEFAULT DOCK LAYOUT LAUNCHAGENT VIA JAMF POLICY TRIGGER
+   echo "Status: Installing - UoD Dock Layout..." >> $depnLog
+   sudo /usr/local/jamf/bin/jamf policy -trigger pkg_docklayout
+   sleep 1
 
 
 # DEPLOYING SELF SERVICE VIA JAMF POLICY TRIGGER
