@@ -44,6 +44,9 @@
       # Minimise into Dock App Icon
       /usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.dock minimize-to-application -bool true
 
+      # Disable Reopening windows at next login prompt
+      /usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.loginwindow TALLogoutSavesState -bool false
+
       # default Safari homepage
       /usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.Safari HomePage -string "$4"
       
