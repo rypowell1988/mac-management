@@ -46,6 +46,16 @@
 
       # default Safari homepage
       /usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.apple.Safari HomePage -string "$4"
+      
+      # Set Office Update Checking to Manual
+      /usr/bin/defaults write "${USER_TEMPLATE}"/Library/Preferences/com.microsoft.autoupdate2 HowToCheck -string "Manual"
+      
+      # Set Office Run on Apps to Complete
+      /usr/bin/defaults write "${USER_TEMPLATE}"/Library/Containers/com.microsoft.Word/Data/Library/Preferences/com.microsoft.Word kSubUIAppCompletedFirstRunSetup1507 -int 1
+      /usr/bin/defaults write "${USER_TEMPLATE}"/Library/Containers/com.microsoft.Excel/Data/Library/Preferences/com.microsoft.Excel kSubUIAppCompletedFirstRunSetup1507 -int 1
+      /usr/bin/defaults write "${USER_TEMPLATE}"/Library/Containers/com.microsoft.PowerPoint/Data/Library/Preferences/com.microsoft.PowerPoint kSubUIAppCompletedFirstRunSetup1507 -int 1
+      /usr/bin/defaults write "${USER_TEMPLATE}"/Library/Containers/com.microsoft.onenote.mac/Data/Library/Preferences/com.microsoft.onenote.mac kSubUIAppCompletedFirstRunSetup1507 -int 1
+      
    done
 
 
