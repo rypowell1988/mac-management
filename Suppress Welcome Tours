@@ -1,0 +1,12 @@
+#!/bin/sh
+# Dismisses tour prompts utilising the inbuilt touristd binary
+#   Version: 1.0
+#   Author: Ryan Powell
+#   Reference: https://github.com/rypowell1988/mac-management/blob/master/Supress%20Welcome%20Tours
+
+
+# EXECUTE THE BINARY
+   /System/Library/PrivateFrameworks/Tourist.framework/Versions/A/Resources/touristd dismiss
+
+# EXIT SUCCESSFUL
+   exit 0
