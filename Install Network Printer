@@ -1,0 +1,29 @@
+#!/bin/sh
+# Installs A Network Printer
+#   Version: 1.0
+#   Author: Ryan Powell
+#   Reference: https://github.com/rypowell1988/mac-management/blob/master/Install%20Network%20Printer
+#   Note: This script uses:
+#            Parameter 4 in the JSS to define the Printer Path / Share       
+#            Parameter 5 in the JSS to define the Print Driver Path
+#            Parameter 6 in the JSS to define the Printer Display Name
+
+
+# CHECK PARAMETERS HAVE BEEN PASSED
+   if [[ $4 == "" ]]; then
+      exit 1
+   fi
+   if [[ $5 == "" ]]; then
+      exit 1
+   fi
+   if [[ $6 == "" ]]; then
+      exit 1
+   fi
+
+
+# INSTALL THE PRINTER
+   lpadmin -p "$6" -E -v "$4" -P "$5" -o printer-is-shared=false -o APOptionalDuplexer=True -o auth-info-required=negotiate
+
+
+# EXIT SUCCESS
+   exit 0
