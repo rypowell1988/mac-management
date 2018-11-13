@@ -18,7 +18,7 @@
 # GET THE DOMAIN AND CHECK IF WE'RE ONLINE
    DomainName=`dsconfigad -show | awk '/Active Directory Domain/{print $NF}'`
    echo "AD Domain Name = $DomainName"
-   if [[ ! -z $DomainName ]]; then
+   if [[ -z $DomainName ]]; then
       echo "Cannot derive domain name via dsconfigad, exiting"
       exit 1
    fi
