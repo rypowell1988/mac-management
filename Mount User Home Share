@@ -53,7 +53,7 @@
    
    
 # LOOP THROUGH EACH ROOT DIRECTORY AND REMOVE THE UCHG FLAG
-   for dir in "/Volumes/$3/*/";
+   for dir in "/Volumes/$3"/*/;
    do
       chflags nouchg "$dir"
    done
