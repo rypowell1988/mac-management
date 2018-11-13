@@ -16,15 +16,19 @@
 
 
 # GET THE DOMAIN AND CHECK IF WE'RE ONLINE
+   DomainName=`dsconfigad -show | awk '/Active Directory Domain/{print $NF}'`
+   echo "AD Domain Name = $DomainName"
+   IF [[ ! -z $DomainName ]]; then
+      echo "Cannot derive domain name via dsconfigad, exiting"
+      exit 1
+   FI
    echo "Testing if the network is reachable"
-   DomainName=$(echo $SMBHome | awk -F"\\" '{print $3}')
-   echo $DomainName
-   #ping "$DomainName" -c 4 > /dev/null 2>&1
-   #if [ $? -ne 0 ]; then
-      #echo "No"
-      #exit 0
-   #fi
-   #echo "Yes"
+   ping "$DomainName" -c 4 > /dev/null 2>&1
+   if [ $? -ne 0 ]; then
+      echo "No"
+      exit 0
+   fi
+   echo "Yes"
 
 
 # SANITISE THE RETURNED SMBHOME PATH
