@@ -1,0 +1,58 @@
+#!/bin/sh
+# Mounts the User Home Share and Iterates Through Top Level Directories Ensuring these are Unlocked
+#   Version: 1.0
+#   Author: Ryan Powell
+#   Reference: https://github.com/rypowell1988/mac-management/blob/master/Mount%20User%20Home%20Share
+
+
+# GET THE USER SMBHOME ATTRIBUTE
+   SMBHome=$(dscl . -read "/Users/$3" SMBHome | cut -d ' ' -f2)
+   IF [[ $SMBHome == "" ]]; then
+      # No network home, don't bother continuing
+      echo "SMBHome attribute not present"
+      exit 0
+   FI
+   echo "User home = $SMBHome"
+
+
+# GET THE DOMAIN AND CHECK IF WE'RE ONLINE
+   echo "Testing if the network is reachable"
+   DomainName=$(echo $SMBHome | awk -F"\\" '{print $3}')
+   echo $DomainName
+   #ping "$DomainName" -c 4 > /dev/null 2>&1
+   #if [ $? -ne 0 ]; then
+      #echo "No"
+      #exit 0
+   #fi
+   #echo "Yes"
+
+
+# SANITISE THE RETURNED SMBHOME PATH
+   SMBHomeSafe=${SMBHome//\\//}
+   echo $SMBHomeSafe
+
+
+# USE APPLESCRIPT TO MOUNT THE SHARE
+   sudo -u $3 osascript -e "try" -e "mount volume \"smb:$SMBHomeSafe\"" -e "end try"
+   IF [ ! $? -eq 0 ]; then
+      echo "Mounting of the home share failed"
+      exit $?
+   FI
+   
+   
+# TEST IF THE SHARE IS MOUNTED AT /VOLIUMES/<USERNAME>
+   IF [[ ! -d "/Volumes/$3" ]]; THEN
+      echo "Cannot find mounted share, exiting"
+      exit 1
+   FI
+   
+   
+# LOOP THROUGH EACH ROOT DIRECTORY AND REMOVE THE UCHG FLAG
+   FOR dir IN /Volumes/$3/*/;
+   DO
+      chflags nouchg "$dir"
+   DONE
+   
+
+# EXIT SUCCESSFUL
+   exit 0
