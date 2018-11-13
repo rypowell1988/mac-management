@@ -24,7 +24,7 @@
    fi
    echo "Testing if the network is reachable"
    ping "$DomainName" -c 4 > /dev/null 2>&1
-   if [ $? -ne 0 ]; then
+   if [[ $? -ne 0 ]]; then
       echo "No"
       exit 0
    fi
@@ -36,15 +36,17 @@
 
 
 # USE APPLESCRIPT TO MOUNT THE SHARE
+   echo "Mounting SMBHome"
    sudo -u $3 osascript -e "try" -e "mount volume \"smb:$SMBHomeSafe\"" -e "end try"
-   if [ ! $? -eq 0 ]; then
-      echo "Mounting of the home share failed"
-      exit $?
+   if [[ ! $? -eq 0 ]]; then
+      echo "Failed"
+      exit "$?"
    fi
-   
-   
+   echo "Successful"
+
+
 # TEST IF THE SHARE IS MOUNTED AT /VOLIUMES/<USERNAME>
-   if [[ ! -d "/Volumes/$3" ]]; THEN
+   if [[ ! -d "/Volumes/$3" ]]; then
       echo "Cannot find mounted share, exiting"
       exit 1
    fi
