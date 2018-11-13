@@ -7,21 +7,21 @@
 
 # GET THE USER SMBHOME ATTRIBUTE
    SMBHome=$(dscl . -read "/Users/$3" SMBHome | cut -d ' ' -f2)
-   IF [[ $SMBHome == "" ]]; then
+   if [[ $SMBHome == "" ]]; then
       # No network home, don't bother continuing
       echo "SMBHome attribute not present"
       exit 0
-   FI
+   fi
    echo "User home = $SMBHome"
 
 
 # GET THE DOMAIN AND CHECK IF WE'RE ONLINE
    DomainName=`dsconfigad -show | awk '/Active Directory Domain/{print $NF}'`
    echo "AD Domain Name = $DomainName"
-   IF [[ ! -z $DomainName ]]; then
+   if [[ ! -z $DomainName ]]; then
       echo "Cannot derive domain name via dsconfigad, exiting"
       exit 1
-   FI
+   fi
    echo "Testing if the network is reachable"
    ping "$DomainName" -c 4 > /dev/null 2>&1
    if [ $? -ne 0 ]; then
@@ -33,29 +33,28 @@
 
 # SANITISE THE RETURNED SMBHOME PATH
    SMBHomeSafe=${SMBHome//\\//}
-   echo $SMBHomeSafe
 
 
 # USE APPLESCRIPT TO MOUNT THE SHARE
    sudo -u $3 osascript -e "try" -e "mount volume \"smb:$SMBHomeSafe\"" -e "end try"
-   IF [ ! $? -eq 0 ]; then
+   if [ ! $? -eq 0 ]; then
       echo "Mounting of the home share failed"
       exit $?
-   FI
+   fi
    
    
 # TEST IF THE SHARE IS MOUNTED AT /VOLIUMES/<USERNAME>
-   IF [[ ! -d "/Volumes/$3" ]]; THEN
+   if [[ ! -d "/Volumes/$3" ]]; THEN
       echo "Cannot find mounted share, exiting"
       exit 1
-   FI
+   fi
    
    
 # LOOP THROUGH EACH ROOT DIRECTORY AND REMOVE THE UCHG FLAG
-   FOR dir IN /Volumes/$3/*/;
-   DO
+   for dir IN /Volumes/$3/*/;
+   do
       chflags nouchg "$dir"
-   DONE
+   done
    
 
 # EXIT SUCCESSFUL
